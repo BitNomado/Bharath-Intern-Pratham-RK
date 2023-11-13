@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #b3e0f2, #e0f7fa, #b3e0f2);
+            animation: breathing 6s infinite alternate;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        @keyframes breathing {
+            0% {
+                background-size: 100% 100%;
+            }
+
+            100% {
+                background-size: 120% 120%;
+            }
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #1976d2;
+            font-weight: 700;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .converter-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .col {
+            text-align: center;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+            display: block;
+        }
+
+        input {
+            width: 150px;
+            height: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .conversion-result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #1565c0;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Temperature Converter</h1>
+        <div class="converter-row">
+            <div class="col">
+                <label>Fahrenheit</label>
+                <input type="number" id="fahrenheit">
+            </div>
+
+            <div class="col">
+                <label>Celsius</label>
+                <input type="number" id="celsius">
+            </div>
+
+            <div class="col">
+                <label>Kelvin</label>
+                <input type="number" id="kelvin">
+            </div>
+        </div>
+        <div class="conversion-result" id="result"></div>
+        <div class="info-text">Enter a value in any field to start the conversion.</div>
+    </div>
+
+    <script>
+        let celsius = document.getElementById('celsius');
+        let fahrenheit = document.getElementById('fahrenheit');
+        let kelvin = document.getElementById('kelvin');
+        let result = document.getElementById('result');
+
+        celsius.oninput = function () {
+            let f = (parseFloat(celsius.value) * 9) / 5 + 32;
+            fahrenheit.value = parseFloat(f.toFixed(4));
+
+            let k = parseFloat(celsius.value) + 273.15;
+            kelvin.value = parseFloat(k.toFixed(4));
+
+            displayResult(parseFloat(celsius.value), f, k);
+        }
+
+        fahrenheit.oninput = function () {
+            let c = ((parseFloat(fahrenheit.value) - 32) * 5) / 9;
+            celsius.value = parseFloat(c.toFixed(4));
+
+            let k = (parseFloat(fahrenheit.value) - 32) * 5 / 9 + 273.15;
+            kelvin.value = parseFloat(k.toFixed(4));
+
+            displayResult(c, parseFloat(fahrenheit.value), k);
+        }
+
+        kelvin.oninput = function () {
+            let f = (parseFloat(kelvin.value) - 273.15) * 9 / 5 + 32;
+            fahrenheit.value = parseFloat(f.toFixed(4));
+
+            let c = parseFloat(kelvin.value) - 273.15;
+            celsius.value = parseFloat(c.toFixed(4));
+
+            displayResult(c, f, parseFloat(kelvin.value));
+        }
+
+        function displayResult(celsius, fahrenheit, kelvin) {
+            result.innerText = `${celsius} Celsius is equal to ${fahrenheit} Fahrenheit and ${kelvin} Kelvin.`;
+        }
+    </script>
+</body>
+
+</html>
